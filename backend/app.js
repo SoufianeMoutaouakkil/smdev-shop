@@ -8,7 +8,7 @@ const configPath = path.join(__dirname, "config");
 const smartApi = getSmartApi({ configPath, apiName: "/my-api" });
 
 // client side
-const distPath = path.join(__dirname, "frontend/dist");
+const distPath = path.join(__dirname, "../frontend/dist");
 smartApi.use(express.static(distPath));
 smartApi.get("*", (req, res) => {
     console.log("req.url: ", req.url);

@@ -16,7 +16,7 @@ const HomePage = () => {
     useEffect(() => {
         console.log({ fetchedProducts });
         if (fetchedProducts?.data) {
-            setProducts(fetchedProducts);
+            setProducts(fetchedProducts?.data);
         }
     }, [fetchedProducts]);
 

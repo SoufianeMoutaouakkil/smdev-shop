@@ -37,9 +37,9 @@ export const getRessouceFetcher = (resource) => {
         }
         return res;
     };
-    const search = async ({ query, opts = {} }) => {
+    const search = async ({ query = null, opts = {} } = {}) => {
         query = !query ? { field: "_id", operator: "exists" } : query;
-        
+        console.log({ query });
         if (typeof query === "object") {
             query = JSON.stringify(query);
             query = "query=" + encodeURIComponent(query);

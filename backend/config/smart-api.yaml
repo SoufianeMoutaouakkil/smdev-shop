@@ -67,6 +67,9 @@ products:
         getAll:
             default:
                 enabled: true
+        getByQuery:
+            default:
+                enabled: true
         getById:
             default:
                 enabled: true

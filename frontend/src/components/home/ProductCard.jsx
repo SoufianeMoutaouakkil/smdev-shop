@@ -20,10 +20,10 @@ const ProductCard = ({ product }) => {
         </Link>
         <Card.Text as="div">
           <div className="mt-3">
-            <Rating
+            {/* <Rating
               value={product.rating}
               text={`${product.numReviews} reviews`}
-            />
+            /> */}
           </div>
         </Card.Text>
       </Card.Body>
