@@ -1,0 +1,188 @@
+users:
+    schema:
+        timestamps: true
+        fields:
+            fullname:
+                type: String
+            username:
+                type: String
+                required: true
+            role:
+                type: String
+                required: true
+                enum: "'admin', 'manager', 'user'"
+                default: "user"
+            password:
+                type: String
+                required: true
+    permissions:
+        default:
+            enabled: true
+            userFilter:
+                field: _id
+                value: smapiuser@_id
+        guest:
+            enabled: false
+        admin:
+            userFilter: no-inherit
+
+products:
+    schema:
+        timestamps: true
+        fields:
+            name:
+                type: String
+                required: true
+            price:
+                type: Number
+                required: true
+            description:
+                type: String
+                required: true
+            image:
+                type: String
+            quantity:
+                type: Number
+                required: true
+                default: 0
+            brand:
+                type: String
+                required: true
+                enum: "'Apple', 'Samsung', 'Huawei', 'Xiaomi', 'Oppo', 'Vivo', 'OnePlus', 'Realme', 'Sony', 'Nokia', 'LG', 'Motorola', 'Google', 'Asus', 'HTC', 'Lenovo', 'ZTE', 'Alcatel', 'TCL', 'Meizu', 'Micromax', 'Lava', 'Infinix'"
+            category:
+                type: String
+                required: true
+                enum: "'Smartphone', 'Tablet', 'Laptop', 'Desktop', 'Smartwatch', 'Headphones', 'Earbuds', 'Speaker', 'Camera', 'Drone', 'Printer', 'Monitor', 'TV', 'Gaming Console', 'Accessory'"
+
+    permissions:
+        # default permissions for all users and actions
+        default:
+            enabled: false
+        # default permissions for each role
+        manager:
+            enabled: true
+        admin:
+            enabled: true
+        # specific permissions for each action
+        getAll:
+            default:
+                enabled: true
+        getById:
+            default:
+                enabled: true
+        # disable for manager creating mode
+        create:
+            manager:
+                enabled: false
+        import:
+            manager:
+                enabled: false
+        createMany:
+            manager:
+                enabled: false
+
+reviews:
+    schema:
+        timestamps: true
+        fields:
+            productId:
+                type: objectId
+                required: true
+            userId:
+                type: objectId
+                required: true
+            rating:
+                type: Number
+                required: true
+            comment:
+                type: String
+                required: true
+    permissions:
+        default:
+            enabled: true
+
+carts:
+    schema:
+        timestamps: true
+        fields:
+            userId:
+                type: objectId
+                required: true
+            productId:
+                type: objectId
+                required: true
+            quantity:
+                type: Number
+                required: true
+    permissions:
+        default:
+            enabled: true
+            queryFilter:
+                field: userId
+                value: smapiuser@_id
+        # set default permissions for each role
+        manager:
+            enabled: true
+        admin:
+            enabled: true
+
+orders:
+    schema:
+        timestamps: true
+        fields:
+            userId:
+                type: objectId
+                required: true
+            totalPrice:
+                type: Number
+                default: 0
+            deliveryPrice:
+                type: Number
+                default: 0
+            deliveryAddress:
+                type: String
+                required: true
+            status:
+                type: String
+                enum: "'pending', 'paid', 'delivered', 'canceled'"
+                default: "pending"
+    permissions:
+        default:
+            enabled: true
+            queryFilter:
+                field: userId
+                value: smapiuser@_id
+        manager:
+            enabled: true
+        admin:
+            enabled: true
+
+orderItems:
+    schema:
+        timestamps: true
+        fields:
+            orderId:
+                type: objectId
+                required: true
+            productId:
+                type: objectId
+                required: true
+            quantity:
+                type: Number
+                required: true
+            price:
+                type: Number
+                required: true
+    permissions:
+        default:
+            enabled: true
+            fieldsPopulate:
+                - path: orderId
+                  select: userId
+            ressourceFilter:
+                field: orderId.userId
+                value: smapiuser@_id
+        manager:
+            ressourceFilter: no-inherit
+        admin:
+            ressourceFilter: no-inherit
