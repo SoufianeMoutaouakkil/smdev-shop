@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
-// import products from "../products";
 import Product from "../components/home/ProductCard";
 import { productsSearch } from "../services/store/slices/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
+
 const HomePage = () => {
     const dispatch = useDispatch();
     const [products, setProducts] = useState([]);

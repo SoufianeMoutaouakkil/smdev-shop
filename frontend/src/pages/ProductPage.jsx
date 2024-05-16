@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Container, Row, Col, Image, ListGroup, Button } from "react-bootstrap";
-import products from "../products";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import Product from "../components/product/Product";
 import NotFoundProduct from "../components/product/NotFoundProduct";
+import { useDispatch, useSelector } from "react-redux";
+import { productsGetById } from "../services/store/slices/productsSlice";
 
 const ProductPage = () => {
-  // get the id from the URL as integer
-  const id = parseInt(useParams().id);
+  const id = useParams().id;
   const [product, setProduct] = useState(null);
+  const dispatch = useDispatch();
+
+  const fetchedProducts = useSelector((state) => state.products?.getById);
 
   useEffect(() => {
-    const product = products.find((p) => {
-      console.log({ id, pId: p._id });
-      console.log({ "id === p._id": id === p._id });
-      return id === p._id;
-    });
-    setProduct(product);
-    console.log({ products });
-  }, [id]);
+    console.log("Fetching products");
+    dispatch(productsGetById({id}));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    console.log({ fetchedProducts });
+    if (fetchedProducts?.data) {
+      setProduct(fetchedProducts?.data);
+    }
+  }, [fetchedProducts]);
 
   return (
     <div>
