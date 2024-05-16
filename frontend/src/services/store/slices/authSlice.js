@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuthCaller } from "../../shared/getBackCaller";
 
 const authApi = getAuthCaller("auth");
@@ -38,6 +37,9 @@ const authSlice = createSlice({
             localStorage.removeItem("token");
             state.authData = null;
         },
+        clearError: (state) => {
+            state.error = null;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(login.pending, (state) => {
@@ -74,6 +76,6 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, clearError } = authSlice.actions;
 
 export default authSlice.reducer;
