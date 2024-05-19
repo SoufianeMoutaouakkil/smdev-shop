@@ -4,7 +4,11 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/interactions/Message";
 import Loader from "../components/interactions/Loader";
-import { usersUpdate } from "../services/store/slices/usersSlice";
+import {
+    usersUpdate,
+    clearApi,
+    clearApiCall,
+} from "../services/store/slices/usersSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
@@ -42,6 +46,7 @@ const ProfilePage = () => {
             user = JSON.parse(user);
             user = { ...user, fullname, username };
             localStorage.setItem("user", JSON.stringify(user));
+            cleanApiResponse();
         }
     }, [userUpdateState]);
 
@@ -59,6 +64,12 @@ const ProfilePage = () => {
             const data = { fullname, username };
             dispatch(usersUpdate({ data, id: user._id }));
         }
+    };
+
+    const cleanApiResponse = () => {
+        setTimeout(() => {
+            dispatch(clearApiCall({ apiAction: "update" }));
+        }, 3000);
     };
 
     return (
@@ -97,17 +108,19 @@ const ProfilePage = () => {
                             >
                                 Update
                             </Button>
-                            {userUpdateState?.isLoading && <Loader />}
-                            {userUpdateState?.error && (
-                                <Message variant="danger">
-                                    {userUpdateState.error}
-                                </Message>
-                            )}
-                            {userUpdateState?.data && (
-                                <Message variant="success">
-                                    Profile updated successfully
-                                </Message>
-                            )}
+                            <div className="my-2">
+                                {userUpdateState?.isLoading && <Loader />}
+                                {userUpdateState?.error && (
+                                    <Message variant="danger">
+                                        {userUpdateState.error}
+                                    </Message>
+                                )}
+                                {userUpdateState?.data && (
+                                    <Message variant="success">
+                                        Profile updated successfully
+                                    </Message>
+                                )}
+                            </div>
                         </Form>
                     </Col>
                 </Row>
