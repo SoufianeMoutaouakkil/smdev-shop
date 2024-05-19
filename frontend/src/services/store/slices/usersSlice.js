@@ -3,6 +3,7 @@ import { addReducerApiCases } from "../../shared/reducerManager";
 import {
     generateApiActions,
     generateExportedActions,
+    clearApiCallData,
 } from "../../shared/actionsManager";
 
 const initialState = {};
@@ -12,7 +13,9 @@ const usersApiActions = generateApiActions("users");
 const usersSlice = createSlice({
     name: "users",
     initialState,
-    reducers: {},
+    reducers: {
+        clearApiCall: clearApiCallData,
+    },
     extraReducers: (builder) => {
         addReducerApiCases(builder, usersApiActions);
     },
@@ -27,4 +30,5 @@ export const {
     usersSearch,
 } = generateExportedActions("users", usersApiActions);
 
+export const { clearApiCall } = usersSlice.actions;
 export default usersSlice.reducer;

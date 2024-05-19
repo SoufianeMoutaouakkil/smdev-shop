@@ -67,3 +67,20 @@ export const generateExportedActions = (ressourceName, ressourceActions) => {
     }, {});
     return exportedActions;
 };
+
+export const clearApiCallData = (state, action) => {
+    const { item = "all", apiAction } = action.payload;
+    if (item === "all") {
+        state[apiAction] = {
+            data: null,
+            error: null,
+            isLoading: false,
+        };
+    } else if (item === "error" || item === "data") {
+        state[apiAction][item] = null;
+        return;
+    } else if (item === "isLoading") {
+        state[apiAction][item] = false;
+        return;
+    }
+};
