@@ -4,9 +4,10 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 const Header = () => {
     const dispatch = useDispatch();
-    const cartState = useSelector((state) => state.cart);
+    const { cartItems } = useSelector((state) => state.carts);
     const { authData } = useSelector((state) => state.auth);
     const [isGuest, setIsGuest] = useState(true);
+    const [nbCartItems, setNbCartItems] = useState(0);
     useEffect(() => {
         if (authData?.user && authData?.user?.username !== "guest") {
             setIsGuest(false);
@@ -15,7 +16,9 @@ const Header = () => {
         }
     }, [authData]);
 
-    const nbCartItems = 2;
+    useEffect(() => {
+        setNbCartItems(cartItems.reduce((acc, item) => acc + item.qty, 0));
+    }, [cartItems]);
     return (
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>

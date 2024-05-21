@@ -10,27 +10,26 @@ import {
     Card,
 } from "react-bootstrap";
 import Message from "../components/interactions/Message";
-// import { addToCart, removeFromCart } from "../slices/cartSlice";
+import { addToCart, removeFromCart } from "../services/store/slices/cartsSlice";
 
 const CartPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const cart = useSelector((state) => state.carts);
-    const { cartItems } = cart;
+    const { cartItems } = useSelector((state) => state.carts);
 
-    // some logic here
     const addToCartHandler = (product, qty) => {
-        //   dispatch(addToCart({ ...product, qty }));
+        dispatch(addToCart({ ...product, qty }));
     };
 
     const removeFromCartHandler = (id) => {
-        //   dispatch(removeFromCart(id));
+        dispatch(removeFromCart(id));
     };
 
     const checkoutHandler = () => {
         navigate("/login?redirect=/shipping");
     };
+
     return (
         <Row>
             <Col md={8}>
@@ -71,13 +70,14 @@ const CartPage = () => {
                                             }
                                         >
                                             {[
-                                                ...Array(
-                                                    item.countInStock
-                                                ).keys(),
+                                                ...Array(item.quantity).keys(),
                                             ].map((x) => (
                                                 <option
                                                     key={x + 1}
                                                     value={x + 1}
+                                                    selected={
+                                                        item.qty === x + 1
+                                                    }
                                                 >
                                                     {x + 1}
                                                 </option>

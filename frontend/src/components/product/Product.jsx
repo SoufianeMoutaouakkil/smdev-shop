@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Form, Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import Rating from "./Rating";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../services/store/slices/cartsSlice";
 
 const Product = ({ product }) => {
     const [isInStock, setIsInStock] = useState(false);
+    const dispatch = useDispatch();
     const [qty, setQty] = useState(1);
     useEffect(() => {
         if (product) {
             setIsInStock(product.quantity > 0);
         }
     }, [product]);
+
+    const handleAddToCart = () => {
+        dispatch(addToCart({ ...product, qty }));
+    };
 
     return (
         <>
@@ -101,6 +108,7 @@ const Product = ({ product }) => {
                                             <Button
                                                 className="btn btn-outline-success w-100"
                                                 type="button"
+                                                onClick={handleAddToCart}
                                             >
                                                 Add to Cart
                                             </Button>
