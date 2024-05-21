@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 const Header = () => {
-    const dispatch = useDispatch();
     const { cartItems } = useSelector((state) => state.carts);
     const { authData } = useSelector((state) => state.auth);
     const [isGuest, setIsGuest] = useState(true);
@@ -24,7 +23,13 @@ const Header = () => {
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
                     <LinkContainer to="/">
-                        <Navbar.Brand>Smdev Shop</Navbar.Brand>
+                        <Navbar.Brand>
+                            <img
+                                src="/slogo.png"
+                                alt="logo"
+                                style={{ cursor: "pointer", width: "150px" }}
+                            />
+                        </Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
