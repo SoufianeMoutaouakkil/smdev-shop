@@ -1,10 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addReducerApiCases } from "../../shared/reducerManager";
-import {
-    generateApiActions,
-    generateExportedActions,
-    clearApiCallData,
-} from "../../shared/actionsManager";
 
 const getCartItemsFromLocalStorage = () => {
     const cartItems = localStorage.getItem("cartItems")
@@ -17,13 +11,10 @@ const initialState = {
     cartItems: getCartItemsFromLocalStorage(),
 };
 
-const cartsApiActions = generateApiActions("carts");
-
 const cartsSlice = createSlice({
     name: "carts",
     initialState,
     reducers: {
-        clearApiCall: clearApiCallData,
         addToCart: (state, action) => {
             const item = action.payload;
             const existItem = state.cartItems.find((x) => x._id === item._id);
@@ -44,19 +35,7 @@ const cartsSlice = createSlice({
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
         },
     },
-    extraReducers: (builder) => {
-        addReducerApiCases(builder, cartsApiActions);
-    },
 });
 
-export const {
-    cartsGetAll,
-    cartsGetById,
-    cartsCreate,
-    cartsUpdate,
-    cartsRemove,
-    cartsSearch,
-} = generateExportedActions("carts", cartsApiActions);
-
-export const { clearApiCall, addToCart, removeFromCart } = cartsSlice.actions;
+export const { addToCart, removeFromCart } = cartsSlice.actions;
 export default cartsSlice.reducer;

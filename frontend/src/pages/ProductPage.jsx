@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import Product from "../components/product/Product";
 import NotFoundProduct from "../components/product/NotFoundProduct";
 import { useDispatch, useSelector } from "react-redux";
-import { productsGetById } from "../services/store/slices/productsSlice";
+import { getById } from "../services/store/apis/productsApi";
 import Message from "../components/interactions/Message";
 import Loader from "../components/interactions/Loader";
 
@@ -13,11 +13,11 @@ const ProductPage = () => {
     const [product, setProduct] = useState(null);
     const dispatch = useDispatch();
 
-    const fetchedProduct = useSelector((state) => state.products?.getById);
+    const fetchedProduct = useSelector((state) => state.productsApi?.getById);
 
     useEffect(() => {
         console.log("Fetching products");
-        dispatch(productsGetById({ id }));
+        dispatch(getById({ id }));
     }, [dispatch, id]);
 
     useEffect(() => {

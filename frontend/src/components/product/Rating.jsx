@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Stars from "./Stars";
-import { reviewsSearch } from "../../services/store/slices/reviewsSlice";
+import { search as reviewsSearch } from "../../services/store/apis/reviewsApi";
 import { useDispatch, useSelector } from "react-redux";
 
 const Rating = ({ productId }) => {
@@ -11,7 +11,7 @@ const Rating = ({ productId }) => {
     const [nbEmptyStars, setNbEmptyStars] = useState(0);
 
     const dispatch = useDispatch();
-    const fetchedReviews = useSelector((state) => state.reviews?.search);
+    const fetchedReviews = useSelector((state) => state.reviewsApi?.search);
 
     useEffect(() => {
         const query = { field: "productId", value: productId };

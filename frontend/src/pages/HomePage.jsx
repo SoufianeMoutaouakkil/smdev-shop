@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/home/ProductCard";
-import { productsSearch } from "../services/store/slices/productsSlice";
+import { search as productsSearch } from "../services/store/apis/productsApi";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/interactions/Loader";
 import Message from "../components/interactions/Message";
@@ -9,7 +9,7 @@ import Message from "../components/interactions/Message";
 const HomePage = () => {
     const dispatch = useDispatch();
     const [products, setProducts] = useState(null);
-    const fetchedProducts = useSelector((state) => state.products?.search);
+    const fetchedProducts = useSelector((state) => state.productsApi?.search);
     useEffect(() => {
         console.log("Fetching products");
         dispatch(productsSearch());

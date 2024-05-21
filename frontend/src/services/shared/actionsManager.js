@@ -1,6 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import getRessouceFetcher from "./getRessouceFetcher";
 import { getDefaultApiActions } from "./apiManager";
+import { addReducerApiCases } from "./reducerManager";
 
 const defaultApiActions = getDefaultApiActions();
 
@@ -83,4 +84,21 @@ export const clearApiCallData = (state, action) => {
         state[apiAction][item] = false;
         return;
     }
+};
+
+export const getApiSlice = (resourceName, initialState) => {
+    const apiActions = generateApiActions(resourceName);
+
+    const apiSlice = createSlice({
+        name: resourceName + "Api",
+        initialState,
+        reducers: {
+            clearApiCall: clearApiCallData,
+        },
+        extraReducers: (builder) => {
+            addReducerApiCases(builder, apiActions);
+        },
+    });
+
+    return { apiSlice, apiActions };
 };

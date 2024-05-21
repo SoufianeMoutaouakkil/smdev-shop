@@ -1,34 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addReducerApiCases } from "../../shared/reducerManager";
-import {
-    generateApiActions,
-    generateExportedActions,
-    clearApiCallData,
-} from "../../shared/actionsManager";
 
 const initialState = {};
 
-const reviewsApiActions = generateApiActions("reviews");
-
-const reviewsSlice = createSlice({
-    name: "reviews",
+const cartsSlice = createSlice({
+    name: "carts",
     initialState,
     reducers: {
-        clearApiCall: clearApiCallData,
-    },
-    extraReducers: (builder) => {
-        addReducerApiCases(builder, reviewsApiActions);
+        test: (state, action) => {
+            console.log("test");
+        },
     },
 });
 
-export const {
-    reviewsGetAll,
-    reviewsGetById,
-    reviewsCreate,
-    reviewsUpdate,
-    reviewsRemove,
-    reviewsSearch,
-} = generateExportedActions("reviews", reviewsApiActions);
-
-export const { clearApiCall } = reviewsSlice.actions;
-export default reviewsSlice.reducer;
+export const { test } = cartsSlice.actions;
+export default cartsSlice.reducer;

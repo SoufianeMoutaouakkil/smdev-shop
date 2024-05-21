@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/interactions/Message";
 import Loader from "../components/interactions/Loader";
 import {
-    usersUpdate,
-    clearApi,
+    update as usersUpdate,
     clearApiCall,
-} from "../services/store/slices/usersSlice";
+} from "../services/store/apis/usersApi";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/interactions/Loader";
 import FormContainer from "../components/forms/FormContainer";
 import Message from "../components/interactions/Message";
-import { login, clearError } from "../services/store/slices/authSlice";
+import { login, clearError } from "../services/store/apis/authApi";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
