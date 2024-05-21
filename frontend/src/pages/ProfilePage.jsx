@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Form, Button, Row, Col } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/interactions/Message";
 import Loader from "../components/interactions/Loader";
@@ -14,7 +13,6 @@ const ProfilePage = () => {
     const dispatch = useDispatch();
     const [fullname, setFullname] = useState("");
     const [username, setUsername] = useState("");
-    const [message, setMessage] = useState(null);
     const [needUpdate, setNeedUpdate] = useState(false);
     const [needLogin, setNeedLogin] = useState(true);
     const navigate = useNavigate();
@@ -29,7 +27,7 @@ const ProfilePage = () => {
             setUsername(user.username || "");
             setNeedLogin(false);
         }
-    }, [user]);
+    }, [user, navigate]);
 
     useEffect(() => {
         console.log({ user });
@@ -40,6 +38,11 @@ const ProfilePage = () => {
     }, [user]);
 
     useEffect(() => {
+        const cleanApiResponse = () => {
+            setTimeout(() => {
+                dispatch(clearApiCall({ apiAction: "update" }));
+            }, 3000);
+        };
         if (userUpdateState?.data) {
             let user = localStorage.getItem("user");
             user = JSON.parse(user);
@@ -47,7 +50,7 @@ const ProfilePage = () => {
             localStorage.setItem("user", JSON.stringify(user));
             cleanApiResponse();
         }
-    }, [userUpdateState]);
+    }, [userUpdateState, fullname, username, dispatch]);
 
     useEffect(() => {
         setNeedUpdate(
@@ -63,12 +66,6 @@ const ProfilePage = () => {
             const data = { fullname, username };
             dispatch(usersUpdate({ data, id: user._id }));
         }
-    };
-
-    const cleanApiResponse = () => {
-        setTimeout(() => {
-            dispatch(clearApiCall({ apiAction: "update" }));
-        }, 3000);
     };
 
     return (
