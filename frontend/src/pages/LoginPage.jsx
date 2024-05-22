@@ -6,6 +6,7 @@ import Loader from "../components/interactions/Loader";
 import FormContainer from "../components/forms/FormContainer";
 import Message from "../components/interactions/Message";
 import { login, clearError } from "../services/store/apis/authApi";
+import { updateCart } from "../services/store/slices/cartsSlice";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -25,6 +26,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (authData?.user && authData?.user?.username !== "guest") {
+            dispatch(updateCart());
             navigate(redirect);
         }
     }, [authData, navigate, redirect]);

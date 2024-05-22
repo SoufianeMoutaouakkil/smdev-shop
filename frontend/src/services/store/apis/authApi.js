@@ -33,8 +33,9 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            localStorage.removeItem("authData");
+            localStorage.removeItem("cartItems");
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
             state.authData = null;
         },
         clearError: (state) => {

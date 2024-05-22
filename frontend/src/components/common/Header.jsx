@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getAll as getAllCarts } from "../../services/store/apis/cartsApi";
+import { updateCart } from "../../services/store/slices/cartsSlice";
 const Header = () => {
     const { cartItems } = useSelector((state) => state.carts);
     const { authData } = useSelector((state) => state.auth);
+    const fetchedCartItems = useSelector((state) => state.cartsApi?.getAll);
     const [isGuest, setIsGuest] = useState(true);
     const [nbCartItems, setNbCartItems] = useState(0);
+    const dispatch = useDispatch();
     useEffect(() => {
         if (authData?.user && authData?.user?.username !== "guest") {
             setIsGuest(false);
+            dispatch(getAllCarts());
         } else {
             setIsGuest(true);
         }
-    }, [authData]);
+    }, [authData, dispatch]);
 
     useEffect(() => {
-        setNbCartItems(cartItems.reduce((acc, item) => acc + item.qty, 0));
+        if (fetchedCartItems?.data) {
+            dispatch(updateCart(fetchedCartItems.data));
+        }
+    }, [fetchedCartItems, dispatch]);
+
+    useEffect(() => {
+        setNbCartItems(cartItems.reduce((acc, item) => acc + item.quantity, 0));
     }, [cartItems]);
     return (
         <header>
