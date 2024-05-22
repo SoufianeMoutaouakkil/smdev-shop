@@ -15,7 +15,7 @@ const Product = ({ product }) => {
     }, [product]);
 
     const handleAddToCart = () => {
-        dispatch(addToCart({ ...product, qty }));
+        dispatch(addToCart({ ...product, quantity: qty }));
     };
 
     return (

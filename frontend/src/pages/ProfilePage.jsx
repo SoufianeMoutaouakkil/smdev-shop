@@ -17,7 +17,7 @@ const ProfilePage = () => {
     const [needLogin, setNeedLogin] = useState(true);
     const navigate = useNavigate();
     const { user } = useSelector((state) => state?.auth?.authData);
-    const userUpdateState = useSelector((state) => state?.users?.update);
+    const userUpdateState = useSelector((state) => state?.usersApi?.update);
 
     useEffect(() => {
         if (!user || user.username === "guest") {
@@ -73,7 +73,7 @@ const ProfilePage = () => {
             {needLogin && <Loader />}
             {!needLogin && (
                 <Row>
-                    <Col md={3}>
+                    <Col md={6}>
                         <h2>User Profile</h2>
                         <Form onSubmit={submitHandler}>
                             <Form.Group className="my-2" controlId="fullname">

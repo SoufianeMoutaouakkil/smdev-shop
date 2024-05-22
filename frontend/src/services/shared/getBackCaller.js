@@ -19,8 +19,9 @@ const getBackCaller = (module, ressource = "", version = "") => {
         reqUrl += ressource ? `/${ressource}` : "";
         if (opts.action) reqUrl += `/${opts.action}`;
         if (opts.id) reqUrl += `/${opts.id}`;
-        if (opts.query)
+        else if (opts.query)
             reqUrl += `?${new URLSearchParams(opts.query).toString()}`;
+        else if (opts.ids) reqUrl += `?ids=${opts.ids.join(",")}`;
         try {
             const response = await axios(reqUrl, {
                 headers: {
@@ -45,7 +46,7 @@ const getBackCaller = (module, ressource = "", version = "") => {
             if (code === "TOKEN_EXPIRED") {
                 window.localStorage.removeItem("user");
                 window.localStorage.removeItem("token");
-                document.location.href = "/auth/login";
+                document.location.href = "/login";
             } else {
                 const error = err.response ? err.response.data : err;
                 throw error;

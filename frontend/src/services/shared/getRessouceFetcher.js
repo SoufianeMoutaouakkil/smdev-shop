@@ -6,7 +6,7 @@ export const getRessouceFetcher = (resource) => {
     const getById = async ({ id, opts = {} }) => {
         return await apiCaller({ id, method: "GET", ...opts });
     };
-    const getAll = async ({ opts = {} }) => {
+    const getAll = async ({ opts = {} } = {}) => {
         return await apiCaller({ method: "GET", ...opts });
     };
     const create = async ({ data, opts = {}, cb }) => {
@@ -17,10 +17,12 @@ export const getRessouceFetcher = (resource) => {
         }
         return res;
     };
-    const update = async ({ id, data, opts = {}, cb }) => {
+    const update = async ({ id, query, ids, data, opts = {}, cb }) => {
         data = { data };
         const res = await apiCaller({
             id,
+            query,
+            ids,
             method: "PUT",
             data,
             ...opts,
@@ -30,14 +32,20 @@ export const getRessouceFetcher = (resource) => {
         }
         return res;
     };
-    const remove = async ({ id, opts = {}, cb }) => {
-        const res = await apiCaller({ id, method: "DELETE", ...opts });
+    const remove = async ({ id, opts = {}, cb, query, ids }) => {
+        const res = await apiCaller({
+            id,
+            query,
+            ids,
+            method: "DELETE",
+            ...opts,
+        });
         if (cb && typeof cb === "function") {
             cb(res);
         }
         return res;
     };
-    const search = async ({ query = null, opts = {} } = {}) => {
+    const search = async ({ query = null, ids, opts = {} } = {}) => {
         query = !query ? { field: "_id", operator: "exists" } : query;
         console.log({ query });
         if (typeof query === "object") {
@@ -45,6 +53,9 @@ export const getRessouceFetcher = (resource) => {
             query = "query=" + encodeURIComponent(query);
         }
         opts.query = query;
+        if (ids) {
+            opts.ids = ids;
+        }
 
         return await apiCaller({ method: "GET", ...opts });
     };

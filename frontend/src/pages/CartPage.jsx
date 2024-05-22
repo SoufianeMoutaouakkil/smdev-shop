@@ -19,7 +19,7 @@ const CartPage = () => {
     const { cartItems } = useSelector((state) => state.carts);
 
     const addToCartHandler = (product, qty) => {
-        dispatch(addToCart({ ...product, qty }));
+        dispatch(addToCart({ ...product, quantity: qty }));
     };
 
     const removeFromCartHandler = (id) => {
@@ -34,12 +34,13 @@ const CartPage = () => {
         <Row>
             <Col md={8}>
                 <h1 style={{ marginBottom: "20px" }}>Shopping Cart</h1>
-                {cartItems.length === 0 ? (
+                {cartItems.length === 0 && (
                     <Message>
                         Your cart is empty{" "}
                         <Link to="/">Explore our products</Link>
                     </Message>
-                ) : (
+                )}
+                {cartItems.length > 0 && (
                     <ListGroup variant="flush">
                         {cartItems.map((item) => (
                             <ListGroup.Item key={item._id}>
@@ -61,7 +62,7 @@ const CartPage = () => {
                                     <Col md={2}>
                                         <Form.Control
                                             as="select"
-                                            value={item.qty}
+                                            value={item.quantity}
                                             onChange={(e) =>
                                                 addToCartHandler(
                                                     item,
@@ -76,7 +77,7 @@ const CartPage = () => {
                                                     key={x + 1}
                                                     value={x + 1}
                                                     selected={
-                                                        item.qty === x + 1
+                                                        item.quantity === x + 1
                                                     }
                                                 >
                                                     {x + 1}
@@ -108,7 +109,7 @@ const CartPage = () => {
                             <h2>
                                 Subtotal (
                                 {cartItems.reduce(
-                                    (acc, item) => acc + item.qty,
+                                    (acc, item) => acc + item.quantity,
                                     0
                                 )}
                                 ) items
@@ -116,7 +117,7 @@ const CartPage = () => {
                             $
                             {cartItems
                                 .reduce(
-                                    (acc, item) => acc + item.qty * item.price,
+                                    (acc, item) => acc + item.quantity * item.price,
                                     0
                                 )
                                 .toFixed(2)}
